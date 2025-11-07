@@ -1,0 +1,43 @@
+def merge_sort(orders):
+    if len(orders) <= 1:
+        return orders
+    
+    mid = len(orders) // 2
+    left_half = merge_sort(orders[:mid])
+    right_half = merge_sort(orders[mid:])
+    
+    return merge(left_half, right_half)
+
+def merge(left, right):
+    sorted_orders = []
+    i = j = 0
+    
+    # Merge two sorted halves
+    while i < len(left) and j < len(right):
+        if left[i]['delivery_time'] <= right[j]['delivery_time']:
+            sorted_orders.append(left[i])
+            i += 1
+        else:
+            sorted_orders.append(right[j])
+            j += 1
+    
+    # Append remaining elements
+    sorted_orders.extend(left[i:])
+    sorted_orders.extend(right[j:])
+    
+    return sorted_orders
+
+# Example usage
+orders = [
+    {'order_id': 'A001', 'delivery_time': 45},
+    {'order_id': 'A002', 'delivery_time': 30},
+    {'order_id': 'A003', 'delivery_time': 25},
+    {'order_id': 'A004', 'delivery_time': 60},
+    {'order_id': 'A005', 'delivery_time': 15}
+]
+
+sorted_orders = merge_sort(orders)
+
+print("Orders sorted by delivery time:")
+for order in sorted_orders:
+    print(f"Order ID: {order['order_id']}, Delivery Time: {order['delivery_time']} minutes")
