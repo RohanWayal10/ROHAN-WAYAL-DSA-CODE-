@@ -1,0 +1,28 @@
+
+def naive_string_match(text, pattern):
+    n = len(text)
+    m = len(pattern)
+    indices = []
+    
+    for i in range(n - m + 1):
+        # Check substring text[i:i+m]
+        match = True
+        for j in range(m):
+            if text[i + j] != pattern[j]:
+                match = False
+                break
+        if match:
+            indices.append(i)
+    
+    return indices
+
+# Example usage
+text = "ababcabcabababd"
+pattern = "ababd"
+
+result = naive_string_match(text, pattern)
+
+if result:
+    print("Pattern found at indices:", result)
+else:
+    print("Pattern not found in the text.")
