@@ -1,0 +1,97 @@
+class Parcel:
+    def __init__(self, profit, weight):
+        self.profit = profit
+        self.weight = weight
+        self.ratio = profit / weight if weight != 0 else 0
+    
+    def __repr__(self):
+        return f"(Profit: {self.profit}, Weight: {self.weight}, Ratio: {self.ratio:.2f})"
+
+
+def fractional_knapsack(capacity, parcels):
+    # Sort parcels by profit/weight ratio in descending order
+    parcels.sort(key=lambda x: x.ratio, reverse=True)
+    
+    total_profit = 0.0
+    capacity_left = capacity
+    parcels_taken = []
+    
+    print(f"\nTruck capacity: {capacity} units")
+    print("Parcels sorted by profit/weight ratio (desc):")
+    for p in parcels:
+        print(p)
+    
+    for parcel in parcels:
+        if capacity_left == 0:
+            print("Truck is full, stopping loading.")
+            break
+        
+        if parcel.weight <= capacity_left:
+            # Take the whole parcel
+            parcels_taken.append((parcel, 1))  # 1 means whole parcel taken
+            capacity_left -= parcel.weight
+            total_profit += parcel.profit
+            print(f"\nTaking full parcel: {parcel}")
+            print(f"Remaining capacity: {capacity_left}")
+        else:
+            # Take fraction of the parcel
+            fraction = capacity_left / parcel.weight
+            parcels_taken.append((parcel, fraction))
+            profit_gained = parcel.profit * fraction
+            total_profit += profit_gained
+            print(f"\nTaking fraction {fraction:.4f} of parcel: {parcel}")
+            print(f"Profit gained: {profit_gained:.2f}")
+            capacity_left = 0
+            print("Truck is now full.")
+    
+    return total_profit, parcels_taken
+
+
+def main():
+    print("\nEnter number of parcels:")
+    try:
+        n = int(input())
+        if n <= 0:
+            print("Number of parcels must be positive.")
+            return
+    except:
+        print("Invalid input for number of parcels.")
+        return
+    
+    parcels = []
+    for i in range(n):
+        print(f"\nEnter profit and weight for parcel {i+1} (separated by space):")
+        try:
+            profit, weight = map(float, input().split())
+            if profit < 0 or weight <= 0:
+                print("Profit must be >=0 and weight must be >0. Try again.")
+                return
+            parcels.append(Parcel(profit, weight))
+        except:
+            print("Invalid input for profit/weight.")
+            return
+    
+    print("\nEnter truck capacity:")
+    try:
+        capacity = float(input())
+        if capacity <= 0:
+            print("Capacity must be greater than zero.")
+            return
+    except:
+        print("Invalid input for capacity.")
+        return
+    
+    total_profit, parcels_taken = fractional_knapsack(capacity, parcels)
+    
+    print("\nSummary of loading:")
+    for parcel, fraction in parcels_taken:
+        if fraction == 1:
+            print(f"Took whole parcel with profit {parcel.profit} and weight {parcel.weight}")
+        else:
+            print(f"Took {fraction:.4f} fraction of parcel with profit {parcel.profit} and weight {parcel.weight}")
+    
+    print(f"\nMaximum Profit achieved: {total_profit:.2f}")
+
+
+if __name__ == "__main__":
+    main()
