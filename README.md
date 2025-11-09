@@ -57,6 +57,7 @@ Q2: How to check if the queue is full or empty?
 A2:
 
 •	Full → (rear + 1) % size == front
+
 •	Empty → front == -1.
 
 Q3: What is the function of front and rear pointers?
@@ -84,7 +85,9 @@ Q2: Difference between inorder, preorder, and postorder traversals?
 
 A2:
 •	Inorder → Left, Root, Right
+
 •	Preorder → Root, Left, Right
+
 •	Postorder → Left, Right, Root
 
 Q3: How to handle duplicate entries?
@@ -110,7 +113,9 @@ Q2: Difference between Kruskal’s and Prim’s algorithm?
 
 A2:
 •	Kruskal’s → Edge-based, uses sorting.
+
 •	Prim’s → Vertex-based, grows one vertex at a time.
+
 Q3: What data structure is used in Kruskal’s?
 
 A3: Disjoint Set (Union-Find) to detect cycles.
@@ -129,6 +134,7 @@ Q1: What is a heap?
 A1: A binary tree satisfying heap property:
 
 •	Max-Heap → parent ≥ children
+
 •	Min-Heap → parent ≤ children.
 
 Q2: How is a heap built from an array?
@@ -217,19 +223,31 @@ A5: Using efficient algorithms like KMP or Rabin-Karp.
 ________________________________________
 🔟 AI Search Algorithm (Maze Navigation)
 Q1: What is the difference between uninformed and informed search?
+
 A1:
 •	Uninformed (BFS, DFS) → No heuristic knowledge.
+
 •	Informed (A*, Best-first) → Uses heuristics to guide search.
+
 Q2: What is a heuristic?
+
 A2: A function estimating the cost from current node to goal.
+
 Q3: How does A* ensure the shortest path?
+
 A3: By combining actual cost (g) and heuristic cost (h): f(n) = g(n) + h(n).
+
 Q4: Difference between BFS and DFS?
+
 A4:
 •	BFS → Level-order, finds shortest path.
+
 •	DFS → Goes deep first, uses less memory but may get stuck.
+
 Q5: Real-life applications of AI Search?
+
 A5: GPS navigation, robotics, game pathfinding, and puzzle solving.
+
 ________________________________________
 ✅ Total: 10 programs × 5 questions = 50 Viva Questions with Answers
 ________________________________________
