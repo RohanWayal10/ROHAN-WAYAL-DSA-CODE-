@@ -1,0 +1,139 @@
+
+#include <iostream>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+// Node structure for stack
+struct Node
+{
+    char data;
+    Node *next;
+};
+
+// Stack ADT using linked list
+class Stack
+{
+    Node *top;
+
+public:
+    Stack() { top = NULL; }
+
+    bool isEmpty()
+    {
+        return top == NULL;
+    }
+
+    void push(char x)
+    {
+        Node *temp = new Node();
+        temp->data = x;
+        temp->next = top;
+        top = temp;
+    }
+
+    char pop()
+    {
+        if (isEmpty())
+            return '\0';
+        Node *temp = top;
+        char x = temp->data;
+        top = top->next;
+        delete temp;
+        return x;
+    }
+
+    char peek()
+    {
+        if (isEmpty())
+            return '\0';
+        return top->data;
+    }
+};
+
+// Function to check precedence
+int precedence(char c)
+{
+    if (c == '^')
+        return 3;
+    else if (c == '*' || c == '/')
+        return 2;
+    else if (c == '+' || c == '-')
+        return 1;
+    else
+        return -1;
+}
+
+// Infix → Postfix conversion
+string infixToPostfix(string infix)
+{
+    Stack st;
+    string postfix = "";
+    for (char c : infix)
+    {
+        if (isalnum(c))
+        {
+            postfix += c;
+        }
+        else if (c == '(')
+        {
+            st.push(c);
+        }
+        else if (c == ')')
+        {
+            while (!st.isEmpty() && st.peek() != '(')
+            {
+                postfix += st.pop();
+            }
+            st.pop(); // remove '('
+        }
+        else
+        {
+            while (!st.isEmpty() && precedence(st.peek()) >= precedence(c))
+            {
+                postfix += st.pop();
+            }
+            st.push(c);
+        }
+    }
+    while (!st.isEmpty())
+    {
+        postfix += st.pop();
+    }
+    return postfix;
+}
+
+// Infix → Prefix conversion
+string infixToPrefix(string infix)
+{
+    reverse(infix.begin(), infix.end());
+    for (int i = 0; i < infix.length(); i++)
+    {
+        if (infix[i] == '(')
+            infix[i] = ')';
+        else if (infix[i] == ')')
+            infix[i] = '(';
+    }
+    string postfix = infixToPostfix(infix);
+    reverse(postfix.begin(), postfix.end());
+    return postfix;
+}
+
+// Driver Code
+int main()
+{
+    cout << "Rohan Wayal" << endl;
+
+    string infix;
+    cout << "Enter Infix Expression: ";
+    cin >> infix;
+
+    string postfix = infixToPostfix(infix);
+    string prefix = infixToPrefix(infix);
+
+    cout << "Infix   : " << infix << endl;
+    cout << "Postfix : " << postfix << endl;
+    cout << "Prefix  : " << prefix << endl;
+
+    return 0;
+}
