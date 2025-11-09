@@ -5,6 +5,9 @@ class Parcel:
         self.r = profit / weight if weight != 0 else 0
 
 def fractional_knapsack(capacity, parcels):
+    if capacity <= 0 or len(parcels) == 0:
+        print("Capacity or parcels invalid!")
+        return 0
     parcels.sort(key=lambda x: x.r, reverse=True)
     total_profit = 0.0
     cap_left = capacity
@@ -29,11 +32,19 @@ def fractional_knapsack(capacity, parcels):
 
 # --- Main Program ---
 n = int(input("Enter number of parcels: "))
+if n <= 0:
+    print("Number of parcels must be > 0"); exit()
+
 parcels = []
 for i in range(n):
     p, w = map(float, input(f"Enter profit and weight of parcel {i+1}: ").split())
+    if p < 0 or w <= 0:
+        print("Invalid profit or weight!"); exit()
     parcels.append(Parcel(p, w))
 
 cap = float(input("Enter truck capacity: "))
+if cap <= 0:
+    print("Capacity must be > 0"); exit()
+
 profit = fractional_knapsack(cap, parcels)
 print(f"\nMaximum Profit = {profit:.2f}")
