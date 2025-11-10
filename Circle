@@ -1,0 +1,57 @@
+#include <iostream>
+#define SIZE 5
+using namespace std;
+
+class CircularQueue {
+    int arr[SIZE];
+    int front, rear;
+public:
+    CircularQueue() { front = rear = -1; }
+    bool isFull() { return (front == 0 && rear == SIZE - 1) || (front == rear + 1); }
+    bool isEmpty() { return front == -1; }
+
+    void enqueue(int val) {
+        if (isFull()) { cout << "Queue Full\n"; return; }
+        if (front == -1) front = 0;
+        rear = (rear + 1) % SIZE;
+        arr[rear] = val;
+    }
+
+    void dequeue() {
+        if (isEmpty()) { cout << "Queue Empty\n"; return; }
+        cout << "Deleted: " << arr[front] << endl;
+        if (front == rear) front = rear = -1;
+        else front = (front + 1) % SIZE;
+    }
+
+    void display() {
+        if (isEmpty()) { cout << "Queue Empty\n"; return; }
+        int i = front;
+        cout << "Queue: ";
+        while (true) {
+            cout << arr[i] << " ";
+            if (i == rear) break;
+            i = (i + 1) % SIZE;
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    CircularQueue q;
+    int choice, val;
+    while (true) {
+        cout << "\n1.Enqueue  2.Dequeue  3.Display  4.Exit\nEnter choice: ";
+        cin >> choice;
+        if (choice == 1) {
+            cout << "Enter value: ";
+            cin >> val;
+            q.enqueue(val);
+        } else if (choice == 2) {
+            q.dequeue();
+        } else if (choice == 3) {
+            q.display();
+        } else break;
+    }
+    return 0;
+}
